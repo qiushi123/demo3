@@ -2,22 +2,20 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"/>
+        android:layout_height="wrap_content"/>
 
-    <com.example.qcl.demo.floorview.FloorView
-        android:id="@+id/widget_show_all_tabs"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
         android:background="@color/colorWhite"
-        android:visibility="visible"/>
-
-
+        android:padding="15dp"
+        android:src="@drawable/arrow_down"/>
 </RelativeLayout>

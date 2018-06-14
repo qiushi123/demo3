@@ -29,5 +29,13 @@
         android:text="vlayout-楼层导航栏"
         />
 
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="自定义view"
+        />
+
 
 </LinearLayout>
