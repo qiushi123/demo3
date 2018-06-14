@@ -156,7 +156,6 @@ public class FloorView extends LinearLayout {
         myAdapter.setSelectPosition(position);
     }
 
-
     /**
      * 用内部类来写adapter
      */
