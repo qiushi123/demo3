@@ -37,5 +37,13 @@
         android:text="自定义view"
         />
 
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="雷达图-蜘蛛网图"
+        />
+
 
 </LinearLayout>

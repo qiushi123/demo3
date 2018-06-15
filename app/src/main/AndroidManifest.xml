@@ -17,14 +17,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".rxjava.MainActivityRX"/>
-        <!--自定义view-->
+        <!-- 自定义view -->
         <activity android:name=".view.MainActivityView"/>
-        <!--仿知乎，虎嗅创意广告-->
+        <!-- 仿知乎，虎嗅创意广告 -->
         <activity android:name=".distanceview.DistanceActivity"/>
         <!-- 图文混排 -->
         <activity android:name=".span.ImageTextActivity"/>
         <!-- vlayout -->
         <activity android:name=".vlayout.VlayoutActivity"/>
+        <!--雷达图蜘蛛网-->
+        <activity android:name=".radarmap.RadarMapActivity"/>
     </application>
 
 </manifest>
