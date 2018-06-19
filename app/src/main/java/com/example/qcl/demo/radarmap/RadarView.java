@@ -63,6 +63,7 @@ public class RadarView extends View {
     //用来存放点击区域
     private List<TouchArea> touchAreaList = new ArrayList<TouchArea>(5);
     private boolean hasAdd;
+    private int clickTextPosition;
 
     public RadarView(Context context) {
         this(context, null);
@@ -223,26 +224,49 @@ public class RadarView extends View {
         float x1 = centerX;
         float y1 = centerY - radius;
         Log.d("qclqcl", "x1:" + x1 + ",y1" + y1);
-
+        if (clickTextPosition == 1) {
+            textPaint.setColor(Color.RED);
+        } else {
+            textPaint.setColor(Color.BLACK);
+        }
         canvas.drawText(titles.get(0), x1, y1 - fontHeight / 5, textPaint);
-
         //绘制文字2
         float x2 = (float) (centerX + radius * Math.sin(angle));
         float y2 = (float) (centerY - radius * Math.cos(angle));
         float dis = textPaint.measureText(titles.get(1));//标题一半的宽度
+        if (clickTextPosition == 2) {
+            textPaint.setColor(Color.RED);
+        } else {
+            textPaint.setColor(Color.BLACK);
+        }
         canvas.drawText(titles.get(1), x2 + dis, y2 + fontHeight / 5, textPaint);
         //绘制文字3
         float x3 = (float) (centerX + radius * Math.sin(angle / 2));
         float y3 = (float) (centerY + radius * Math.cos(angle / 2));
+        if (clickTextPosition == 3) {
+            textPaint.setColor(Color.RED);
+        } else {
+            textPaint.setColor(Color.BLACK);
+        }
         canvas.drawText(titles.get(2), x3, y3 + fontHeight, textPaint);
         //绘制文字4
         float x4 = (float) (centerX - radius * Math.sin(angle / 2));
         float y4 = (float) (centerY + radius * Math.cos(angle / 2));
+        if (clickTextPosition == 4) {
+            textPaint.setColor(Color.RED);
+        } else {
+            textPaint.setColor(Color.BLACK);
+        }
         canvas.drawText(titles.get(3), x4, y4 + fontHeight, textPaint);
         //绘制文字5
         float x5 = (float) (centerX - radius * Math.sin(angle));
         float y5 = (float) (centerY - radius * Math.cos(angle));
         float dis5 = textPaint.measureText(titles.get(1));//标题的宽度
+        if (clickTextPosition == 5) {
+            textPaint.setColor(Color.RED);
+        } else {
+            textPaint.setColor(Color.BLACK);
+        }
         canvas.drawText(titles.get(4), x5 - dis5, y5 - fontHeight / 5, textPaint);
 
         if (!hasAdd) {
@@ -281,9 +305,7 @@ public class RadarView extends View {
             touchArea5.setB(y5 + radius / 3);
             touchAreaList.add(touchArea5);
 
-
             hasAdd = true;
-            Log.d("qclqcl", "touchAreaList.size " + touchAreaList.size());
         }
 
     }
@@ -369,10 +391,6 @@ public class RadarView extends View {
         postInvalidate();
     }
 
-    //设置标题颜色
-    public void setTextPaint(Paint textPaint) {
-        this.textPaint = textPaint;
-    }
 
     //设置覆盖局域颜色
     public void setValuePaint(Paint valuePaint) {
@@ -462,14 +480,13 @@ public class RadarView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
-
                 int x = (int) event.getX();
                 int y = (int) event.getY();
-                Log.d("qclqcl", "x:" + x + ",y:" + y);
                 for (int i = 0; i < touchAreaList.size(); i++) {
-                    Log.d("qclqcl", i + "---R:" + touchAreaList.get(i).getR() + ",L:" + touchAreaList.get(i).getL() + "B:" + touchAreaList.get(i).getB() + ",T:" + touchAreaList.get(i).getT());
                     if (x < touchAreaList.get(i).getR() && touchAreaList.get(i).getL() < x && y < touchAreaList.get(i).getB() && touchAreaList.get(i).getT() < y) {
                         Log.d("qclqcl", "点击了 " + titles.get(i));
+                        clickTextPosition = i + 1;
+                        postInvalidate();//重新绘制
                     }
                 }
                 break;
@@ -480,7 +497,6 @@ public class RadarView extends View {
     }
 
     //用来存放点击区域
-
     class TouchArea {
         float l;
         float t;
