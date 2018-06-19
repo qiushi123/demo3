@@ -1,16 +1,22 @@
 package com.example.qcl.demo.radarmap;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 2018/6/15 11:09
@@ -39,11 +45,18 @@ public class RadarView extends View {
     private List<String> titles;
     //各维度分值
     private List<Double> data;
+    private double blowUp = 1;
     //数据最大值
     private double maxValue = 100;
     //弧度
     private float angle;
 
+
+    //执行扩充动画相关
+    private Handler mHandler;
+    private Timer timer = null;
+    private TimerTask timerTask = null;
+    private float progress;
 
     public RadarView(Context context) {
         this(context, null);
@@ -57,6 +70,7 @@ public class RadarView extends View {
         super(context, attrs, defStyleAttr);
         init();
     }
+
 
     private void init() {
         //雷达区画笔初始化
@@ -86,13 +100,6 @@ public class RadarView extends View {
         titles.add("历史");
         count = titles.size();
 
-        //默认分数
-        data = new ArrayList<>(count);
-        data.add(100.0);
-        data.add(80.0);
-        data.add(90.0);
-        data.add(70.0);
-        data.add(60.0);
     }
 
     @Override
@@ -209,6 +216,10 @@ public class RadarView extends View {
         //绘制文字1
         float x1 = centerX;
         float y1 = centerY - radius;
+        Log.d("qclqcl", "x1:" + x1 + ",y1" + y1);
+        Log.d("qclqcl", "fontMetrics.descent:" + fontMetrics.descent);
+        Log.d("qclqcl", "fontMetrics.bottom:" + fontMetrics.bottom);
+
         canvas.drawText(titles.get(0), x1, y1 - fontHeight / 5, textPaint);
         //绘制文字2
         float x2 = (float) (centerX + radius * Math.sin(angle));
@@ -239,7 +250,7 @@ public class RadarView extends View {
         double dataValue;
         double percent;
         //绘制圆点1
-        dataValue = data.get(0);
+        dataValue = data.get(0) * blowUp;
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -250,7 +261,7 @@ public class RadarView extends View {
         path.moveTo(x1, y1);
         canvas.drawCircle(x1, y1, valueRadius, valuePaint);
         //绘制圆点2
-        dataValue = data.get(1);
+        dataValue = data.get(1) * blowUp;
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -261,7 +272,7 @@ public class RadarView extends View {
         path.lineTo(x2, y2);
         canvas.drawCircle(x2, y2, valueRadius, valuePaint);
         //绘制圆点3
-        dataValue = data.get(2);
+        dataValue = data.get(2) * blowUp;
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -272,7 +283,7 @@ public class RadarView extends View {
         path.lineTo(x3, y3);
         canvas.drawCircle(x3, y3, valueRadius, valuePaint);
         //绘制圆点4
-        dataValue = data.get(3);
+        dataValue = data.get(3) * blowUp;
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -283,7 +294,7 @@ public class RadarView extends View {
         path.lineTo(x4, y4);
         canvas.drawCircle(x4, y4, valueRadius, valuePaint);
         //绘制圆点5
-        dataValue = data.get(3);
+        dataValue = data.get(4) * blowUp;
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -323,9 +334,72 @@ public class RadarView extends View {
     }
 
     //设置各门得分
-    public void setData(List<Double> data) {
+    public void setData(List<Double> data, boolean isShowAnimation) {
+        if (data == null || data.size() != 5) {
+            return;
+        }
         this.data = data;
+        if (isShowAnimation) {
+            setBlowUp(0);
+            initHandler();
+            startTimer();
+        } else {
+            setBlowUp(1);
+            postInvalidate();
+        }
+
+    }
+
+    private void setBlowUp(double blowUp) {
+        this.blowUp = blowUp;
         postInvalidate();
+    }
+
+
+    @SuppressLint("HandlerLeak")
+    private void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case 0:
+                        if (progress >= 100f) {
+                            stopTimer();
+                            return;
+                        }
+                        setBlowUp(progress / 100f);
+                        break;
+                }
+            }
+        };
+    }
+
+    private void startTimer() {
+        stopTimer();
+        timer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                progress++;//这边也是子线程，用于发消息更新UI
+                Message message = new Message();
+                message.what = 0;
+                mHandler.sendMessage(message);
+
+            }
+        };
+        timer.schedule(timerTask, 0, 20);//第三个参数代表我们之前定义的休眠的1秒，即我们定义的重复周期
+    }
+
+    private void stopTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        if (timerTask != null) {
+            timerTask.cancel();
+            timerTask = null;
+        }
     }
 
     //设置满分分数，默认是100分满分

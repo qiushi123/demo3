@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
-    <com.example.qcl.demo.floorview.FloorView
-        android:id="@+id/floor"
+    <com.example.qcl.demo.shadowline.ShadowLineView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="400dp">
 
-    </com.example.qcl.demo.floorview.FloorView>
+    </com.example.qcl.demo.shadowline.ShadowLineView>
 
-</FrameLayout>
+    <!--<com.example.qcl.demo.floorview.FloorView-->
+    <!--android:id="@+id/floor"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--</com.example.qcl.demo.floorview.FloorView>-->
+
+
+</LinearLayout>
