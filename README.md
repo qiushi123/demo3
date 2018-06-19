@@ -3,4 +3,7 @@
 ## 一，FlexboxLayoutManager+ RecyclerView实现流式布局。折叠导航栏，导航栏和列表联动
 ![](https://upload-images.jianshu.io/upload_images/6273713-a1daef1d3077d24e.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/400)
 ## 二，雷达图（蜘蛛网图）
-![](https://upload-images.jianshu.io/upload_images/6273713-59bcf2e127e865be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/502)
+- 1，蜘蛛网放大动效
+- 2，分类标题点击变颜色
+- 3，正五边形
+![](https://github.com/qiushi123/demo3/blob/master/images/%E9%9B%B7%E8%BE%BE.png?raw=true)
