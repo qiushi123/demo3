@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -58,6 +59,11 @@ public class RadarView extends View {
     private TimerTask timerTask = null;
     private float progress;
 
+    //点击事件相关
+    //用来存放点击区域
+    private List<TouchArea> touchAreaList = new ArrayList<TouchArea>(5);
+    private boolean hasAdd;
+
     public RadarView(Context context) {
         this(context, null);
     }
@@ -92,7 +98,7 @@ public class RadarView extends View {
         valuePaint.setAntiAlias(true);
         valuePaint.setStyle(Paint.Style.FILL);
 
-        titles = new ArrayList<>();
+        titles = new ArrayList<>(5);
         titles.add("语文");
         titles.add("数学");
         titles.add("英语");
@@ -217,10 +223,9 @@ public class RadarView extends View {
         float x1 = centerX;
         float y1 = centerY - radius;
         Log.d("qclqcl", "x1:" + x1 + ",y1" + y1);
-        Log.d("qclqcl", "fontMetrics.descent:" + fontMetrics.descent);
-        Log.d("qclqcl", "fontMetrics.bottom:" + fontMetrics.bottom);
 
         canvas.drawText(titles.get(0), x1, y1 - fontHeight / 5, textPaint);
+
         //绘制文字2
         float x2 = (float) (centerX + radius * Math.sin(angle));
         float y2 = (float) (centerY - radius * Math.cos(angle));
@@ -239,6 +244,48 @@ public class RadarView extends View {
         float y5 = (float) (centerY - radius * Math.cos(angle));
         float dis5 = textPaint.measureText(titles.get(1));//标题的宽度
         canvas.drawText(titles.get(4), x5 - dis5, y5 - fontHeight / 5, textPaint);
+
+        if (!hasAdd) {
+            TouchArea touchArea1 = new TouchArea();
+            touchArea1.setL(x1 - radius / 3);
+            touchArea1.setR(x1 + radius / 3);
+            touchArea1.setT(y1 - radius / 3);
+            touchArea1.setB(y1 + radius / 3);
+            touchAreaList.add(touchArea1);
+
+            TouchArea touchArea2 = new TouchArea();
+            touchArea2.setL(x2 - radius / 3);
+            touchArea2.setR(x2 + radius / 3);
+            touchArea2.setT(y2 - radius / 3);
+            touchArea2.setB(y2 + radius / 3);
+            touchAreaList.add(touchArea2);
+
+            TouchArea touchArea3 = new TouchArea();
+            touchArea3.setL(x3 - radius / 3);
+            touchArea3.setR(x3 + radius / 3);
+            touchArea3.setT(y3 - radius / 3);
+            touchArea3.setB(y3 + radius / 3);
+            touchAreaList.add(touchArea3);
+
+            TouchArea touchArea4 = new TouchArea();
+            touchArea4.setL(x4 - radius / 3);
+            touchArea4.setR(x4 + radius / 3);
+            touchArea4.setT(y4 - radius / 3);
+            touchArea4.setB(y4 + radius / 3);
+            touchAreaList.add(touchArea4);
+
+            TouchArea touchArea5 = new TouchArea();
+            touchArea5.setL(x5 - radius / 3);
+            touchArea5.setR(x5 + radius / 3);
+            touchArea5.setT(y5 - radius / 3);
+            touchArea5.setB(y5 + radius / 3);
+            touchAreaList.add(touchArea5);
+
+
+            hasAdd = true;
+            Log.d("qclqcl", "touchAreaList.size " + touchAreaList.size());
+        }
+
     }
 
     /**
@@ -405,5 +452,71 @@ public class RadarView extends View {
     //设置满分分数，默认是100分满分
     public void setMaxValue(float maxValue) {
         this.maxValue = maxValue;
+    }
+
+    /*
+     * 获取点击区域相关
+     *
+     * */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                Log.d("qclqcl", "x:" + x + ",y:" + y);
+                for (int i = 0; i < touchAreaList.size(); i++) {
+                    Log.d("qclqcl", i + "---R:" + touchAreaList.get(i).getR() + ",L:" + touchAreaList.get(i).getL() + "B:" + touchAreaList.get(i).getB() + ",T:" + touchAreaList.get(i).getT());
+                    if (x < touchAreaList.get(i).getR() && touchAreaList.get(i).getL() < x && y < touchAreaList.get(i).getB() && touchAreaList.get(i).getT() < y) {
+                        Log.d("qclqcl", "点击了 " + titles.get(i));
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    //用来存放点击区域
+
+    class TouchArea {
+        float l;
+        float t;
+        float r;
+        float b;
+
+        public float getL() {
+            return l;
+        }
+
+        public void setL(float l) {
+            this.l = l;
+        }
+
+        public float getT() {
+            return t;
+        }
+
+        public void setT(float t) {
+            this.t = t;
+        }
+
+        public float getR() {
+            return r;
+        }
+
+        public void setR(float r) {
+            this.r = r;
+        }
+
+        public float getB() {
+            return b;
+        }
+
+        public void setB(float b) {
+            this.b = b;
+        }
     }
 }
