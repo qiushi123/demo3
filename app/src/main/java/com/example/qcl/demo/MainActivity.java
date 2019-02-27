@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.example.qcl.demo.distanceview.DistanceActivity;
 import com.example.qcl.demo.radarmap.RadarMapActivity;
+import com.example.qcl.demo.sharehaibao.ShareHaiBaoActivity;
 import com.example.qcl.demo.span.ImageTextActivity;
 import com.example.qcl.demo.view.MainActivityView;
 import com.example.qcl.demo.vlayout.VlayoutActivity;
@@ -40,16 +41,26 @@ public class MainActivity extends RxAppCompatActivity {
                 startActivity(new Intent(MainActivity.this, VlayoutActivity.class));
             }
         });
+        //自定义view
         findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, MainActivityView.class));
             }
         });
+        //        雷达图-蜘蛛网图
         findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, RadarMapActivity.class));
+            }
+        });
+
+        //生成海报，并显示出来
+        findViewById(R.id.button6).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ShareHaiBaoActivity.class));
             }
         });
     }

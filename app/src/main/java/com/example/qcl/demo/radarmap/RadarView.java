@@ -9,6 +9,9 @@ import android.graphics.Path;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -39,7 +42,7 @@ public class RadarView extends View {
     //雷达区画笔
     private Paint mainPaint;
     //文本画笔
-    private Paint textPaint;
+    private TextPaint textPaint;
     //数据区画笔
     private Paint valuePaint;
     //标题文字
@@ -86,8 +89,8 @@ public class RadarView extends View {
         mainPaint.setAntiAlias(true);
         mainPaint.setStrokeWidth(1);
         mainPaint.setStyle(Paint.Style.STROKE);
-        //文本画笔初始化
-        textPaint = new Paint();
+        //文本画笔初始化，支持换行
+        textPaint = new TextPaint();
         textPaint.setColor(Color.BLACK);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(30);
@@ -104,14 +107,14 @@ public class RadarView extends View {
         titles.add("数学");
         titles.add("英语");
         titles.add("政治");
-        titles.add("历史");
+        titles.add("历史\n历史");
         count = titles.size();
 
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        radius = Math.min(w, h) / 2 * 0.8f;
+        radius = Math.min(w, h) / 2 * 0.7f;
         centerX = w / 2;
         centerY = h / 2;
         //一旦size发生改变，重新绘制
@@ -267,7 +270,14 @@ public class RadarView extends View {
         } else {
             textPaint.setColor(Color.BLACK);
         }
-        canvas.drawText(titles.get(4), x5 - dis5, y5 - fontHeight / 5, textPaint);
+        StaticLayout layout = new StaticLayout(titles.get(4), textPaint, canvas.getWidth(),
+                Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
+        // 这里的参数300，表示字符串的长度，当满300时，就会换行，也可以使用“\r\n”来实现换行
+        canvas.save();
+        canvas.translate(x5 - dis5, y5 - fontHeight / 5);
+        layout.draw(canvas);
+        canvas.restore();//别忘了restore
+//        canvas.drawText(titles.get(4), x5 - dis5, y5 - fontHeight / 5, textPaint);
 
         if (!hasAdd) {
             TouchArea touchArea1 = new TouchArea();
@@ -314,6 +324,9 @@ public class RadarView extends View {
      * 绘制覆盖区域
      */
     private void drawRegion(Canvas canvas) {
+        if (data==null) {
+            return;
+        }
         valuePaint.setAlpha(255);
         Path path = new Path();
         double dataValue;

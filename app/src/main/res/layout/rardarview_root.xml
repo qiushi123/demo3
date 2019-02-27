@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true">
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape_show_all_indicator_rectangle_active"
+        android:text="大运动"
+        android:textColor="@color/grey666"
+        android:textSize="15sp"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="240dp"
+        android:layout_marginTop="70dp"
+
+        android:background="@drawable/shape_show_all_indicator_rectangle_active"
+        android:text="精细运动"
+        android:textColor="@color/grey666"
+        android:textSize="15sp"/>
+
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="190dp"
+        android:background="@drawable/shape_show_all_indicator_rectangle_active"
+        android:text="认知"
+        android:textColor="@color/grey666"
+        android:textSize="15sp"/>
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="74dp"
+        android:layout_marginTop="190dp"
+        android:background="@drawable/shape_show_all_indicator_rectangle_active"
+        android:text="语言"
+        android:textColor="@color/grey666"
+        android:textSize="15sp"/>
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/shape_show_all_indicator_rectangle_active"
+        android:text="社会交往"
+        android:textColor="@color/grey666"
+        android:textSize="15sp"/>
+
+    <com.example.qcl.demo.radarmap.RadarViewNgmm
+        android:id="@+id/rardar"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:layout_below="@id/button1"
+        android:layout_centerInParent="true">
+    </com.example.qcl.demo.radarmap.RadarViewNgmm>
+
+</RelativeLayout>

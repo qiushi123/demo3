@@ -45,5 +45,13 @@
         android:text="雷达图-蜘蛛网图"
         />
 
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="生成海报并保持到本地相册"
+        />
+
 
 </LinearLayout>

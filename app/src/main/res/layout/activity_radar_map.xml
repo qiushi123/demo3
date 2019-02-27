@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey666"
+    android:background="@color/base_11DDEC"
     android:orientation="vertical">
 
-    <com.example.qcl.demo.radarmap.RadarView
+    <com.example.qcl.demo.radarmap.RadarViewRoot
         android:id="@+id/radarview"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
-        android:background="@color/colorWhite"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+    <!--<com.example.qcl.demo.radarmap.RadarViewNgmm-->
+    <!--android:id="@+id/radarview"-->
+    <!--android:layout_width="200dp"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--/>-->
+    <!--<com.example.qcl.demo.radarmap.RadarViewNgmm-->
+    <!--android:id="@+id/radarview2"-->
+    <!--android:layout_width="280dp"-->
+    <!--android:layout_height="280dp"-->
+    <!--android:layout_marginTop="30dp"-->
+    <!--android:background="@color/base_11DDEC"/>-->
 
-    <com.example.qcl.demo.radarmap.RadarView
-        android:id="@+id/radarview2"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorWhite"/>
-
-</LinearLayout>
+</RelativeLayout>

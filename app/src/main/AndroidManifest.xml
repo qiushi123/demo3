@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".sharehaibao.ShareHaiBaoActivity">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -16,16 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".rxjava.MainActivityRX"/>
-        <!-- 自定义view -->
-        <activity android:name=".view.MainActivityView"/>
-        <!-- 仿知乎，虎嗅创意广告 -->
-        <activity android:name=".distanceview.DistanceActivity"/>
-        <!-- 图文混排 -->
-        <activity android:name=".span.ImageTextActivity"/>
-        <!-- vlayout -->
-        <activity android:name=".vlayout.VlayoutActivity"/>
-        <!--雷达图蜘蛛网-->
+        <activity android:name=".rxjava.MainActivityRX"/> <!-- 自定义view -->
+        <activity android:name=".view.MainActivityView"/> <!-- 仿知乎，虎嗅创意广告 -->
+        <activity android:name=".distanceview.DistanceActivity"/> <!-- 图文混排 -->
+        <activity android:name=".span.ImageTextActivity"/> <!-- vlayout -->
+        <activity android:name=".vlayout.VlayoutActivity"/> <!-- 雷达图蜘蛛网 -->
         <activity android:name=".radarmap.RadarMapActivity"/>
     </application>
 
