@@ -33,3 +33,5 @@ private void createPoster() {
         Log.i("qcl0227", "bitmap大小=" + bitmap.getByteCount());//bitmap大小=973440
     }
   ```
+## 四，图文混排+搜索关键字高亮显示
+![](https://github.com/qiushi123/demo3/blob/master/images/tuwenhuanpai.jpg?raw=true)
