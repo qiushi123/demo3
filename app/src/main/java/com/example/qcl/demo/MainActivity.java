@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.qcl.demo.mianshi.java2js.JavaH5Activity;
 import com.example.qcl.demo.view.distanceview.DistanceActivity;
 import com.example.qcl.demo.radarmap.RadarMapActivity;
 import com.example.qcl.demo.xuexi.sharehaibao.ShareHaiBaoActivity;
@@ -61,6 +62,13 @@ public class MainActivity extends RxAppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ShareHaiBaoActivity.class));
+            }
+        });
+        //java和h5的js交互
+        findViewById(R.id.button7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, JavaH5Activity.class));
             }
         });
     }

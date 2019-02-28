@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".mianshi.java2js.JavaH5Activity">
+        </activity>
         <activity android:name=".mianshi.HandlerActivity">
         </activity>
         <activity android:name=".xuexi.sharehaibao.ShareHaiBaoActivity">

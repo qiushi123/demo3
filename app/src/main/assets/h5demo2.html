@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Untitled Document</title>
+</head>
+<body>
+<div id="div" onclick="getAndroidValue()"style="width:100px; height:100px; background-color:#099;"></div>
+<script type="text/javascript">
+function chongdingxiang(){
+   //模拟重定向
+   window.location.href="qiushi://setH5Info?params=%7B%22title%22%3A%22%E5%95%86%E5%93%81%E8%AF%A6%E6%83%85%22%7D";
+}
+function jsMethod(jsonParams){
+   document.getElementById("div").style.backgroundColor='red';
+   document.getElementById("div").innerHTML=jsonParams;
+   return '987654321';
+}
+function getAndroidValue(){
+ document.getElementById("div").innerHTML=window.androidObject.androidMethod();
+}
+</script>
+</body>
+
+</html>

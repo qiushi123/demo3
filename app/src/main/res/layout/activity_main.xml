@@ -53,5 +53,13 @@
         android:text="生成海报并保持到本地相册"
         />
 
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="java和h5的js交互"
+        />
+
 
 </LinearLayout>
