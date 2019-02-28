@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center">
 
-    <com.example.qcl.demo.distanceview.AdImageView
+    <com.example.qcl.demo.view.distanceview.AdImageView
         android:id="@+id/id_iv_ad"
         android:layout_width="match_parent"
         android:layout_height="80dp"

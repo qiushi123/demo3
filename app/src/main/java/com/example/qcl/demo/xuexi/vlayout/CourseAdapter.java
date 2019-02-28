@@ -1,4 +1,4 @@
-package com.example.qcl.demo.vlayout;
+package com.example.qcl.demo.xuexi.vlayout;
 
 import android.content.Context;
 import android.view.LayoutInflater;

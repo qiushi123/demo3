@@ -1,7 +1,8 @@
-package com.example.qcl.demo.span;
+package com.example.qcl.demo.xuexi.span;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.widget.TextView;
@@ -11,18 +12,27 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
  * 图文混排控件
+ * 搜索关键字高亮显示
+ * textview显示h5控件
  */
 public class ImageTextActivity extends RxAppCompatActivity {
 
     private TextView tv;
+    private TextView tv_html;
+    private TextView tv_gaoliang;//高亮显示
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_img_text);
         tv = findViewById(R.id.tv_img);
+        tv_html = findViewById(R.id.tv_html);
+        tv_gaoliang = findViewById(R.id.tv_gaoliang);
 
+        showTvHtml();
 
+        showGaoLiang();
+        //图文混排
         SpannableString sp = new SpannableString("图文混排测排测试图文混排测试图文混排测试图文混排测试图");
 
         //获取一张图片
@@ -40,6 +50,17 @@ public class ImageTextActivity extends RxAppCompatActivity {
 
         tv.setText(sp);
 
+    }
+
+    private void showGaoLiang() {
+        SpannableString spannableString = KeywordUtil.
+                matcherSearchTitle(0xffFF6565, "我是通过SpannableString高亮显示的文字", "高亮");
+        tv_gaoliang.setText(spannableString);
+    }
+
+    private void showTvHtml() {
+        String sText = "我是通过html显示的<font color='red' size='24'>高亮</font>的文字";
+        tv_html.setText(Html.fromHtml(sText));
     }
 
 }

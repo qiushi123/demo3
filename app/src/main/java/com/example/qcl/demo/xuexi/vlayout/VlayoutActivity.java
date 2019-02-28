@@ -1,4 +1,4 @@
-package com.example.qcl.demo.vlayout;
+package com.example.qcl.demo.xuexi.vlayout;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.example.qcl.demo.R;
-import com.example.qcl.demo.floorview.FloorView;
+import com.example.qcl.demo.view.floorview.FloorView;
 
 import java.util.ArrayList;
 import java.util.List;

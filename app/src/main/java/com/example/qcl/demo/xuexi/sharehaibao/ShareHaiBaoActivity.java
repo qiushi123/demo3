@@ -1,4 +1,4 @@
-package com.example.qcl.demo.sharehaibao;
+package com.example.qcl.demo.xuexi.sharehaibao;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package com.example.qcl.demo.distanceview;
+package com.example.qcl.demo.view.distanceview;
 
 import android.content.Context;
 import android.graphics.Canvas;

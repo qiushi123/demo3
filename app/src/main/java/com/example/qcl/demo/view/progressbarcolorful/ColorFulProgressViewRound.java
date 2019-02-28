@@ -1,4 +1,4 @@
-package com.example.qcl.demo.progressbarcolorful;
+package com.example.qcl.demo.view.progressbarcolorful;
 
 import android.content.Context;
 import android.graphics.Canvas;

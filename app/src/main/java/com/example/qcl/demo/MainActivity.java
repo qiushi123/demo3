@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.qcl.demo.distanceview.DistanceActivity;
+import com.example.qcl.demo.view.distanceview.DistanceActivity;
 import com.example.qcl.demo.radarmap.RadarMapActivity;
-import com.example.qcl.demo.sharehaibao.ShareHaiBaoActivity;
-import com.example.qcl.demo.span.ImageTextActivity;
+import com.example.qcl.demo.xuexi.sharehaibao.ShareHaiBaoActivity;
+import com.example.qcl.demo.xuexi.span.ImageTextActivity;
 import com.example.qcl.demo.view.MainActivityView;
-import com.example.qcl.demo.vlayout.VlayoutActivity;
+import com.example.qcl.demo.xuexi.vlayout.VlayoutActivity;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 public class MainActivity extends RxAppCompatActivity {

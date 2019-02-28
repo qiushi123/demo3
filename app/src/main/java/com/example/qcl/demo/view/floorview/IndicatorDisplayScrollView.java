@@ -1,4 +1,4 @@
-package com.example.qcl.demo.floorview;
+package com.example.qcl.demo.view.floorview;
 
 import android.content.Context;
 import android.os.Build;
