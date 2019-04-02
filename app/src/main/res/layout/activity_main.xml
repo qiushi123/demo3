@@ -61,5 +61,13 @@
         android:text="java和h5的js交互"
         />
 
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="view曝光量统计"
+        />
+
 
 </LinearLayout>

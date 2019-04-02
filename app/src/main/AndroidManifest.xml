@@ -8,7 +8,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme2">
+        <activity android:name=".xuexi.baoguang.BaoGuangActivity">
+        </activity>
         <activity android:name=".mianshi.java2js.JavaH5Activity">
         </activity>
         <activity android:name=".mianshi.HandlerActivity">
@@ -22,11 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".xuexi.rxjava.MainActivityRX"/> <!-- 自定义view -->
-        <activity android:name=".view.MainActivityView"/> <!-- 仿知乎，虎嗅创意广告 -->
-        <activity android:name=".view.distanceview.DistanceActivity"/> <!-- 图文混排 -->
-        <activity android:name=".xuexi.span.ImageTextActivity"/> <!-- vlayout -->
-        <activity android:name=".xuexi.vlayout.VlayoutActivity"/> <!-- 雷达图蜘蛛网 -->
+        <activity android:name=".xuexi.rxjava.MainActivityRX"/>
+        <!-- 自定义view -->
+        <activity android:name=".view.MainActivityView"/>
+        <!-- 仿知乎，虎嗅创意广告 -->
+        <activity android:name=".view.distanceview.DistanceActivity"/>
+        <!-- 图文混排 -->
+        <activity android:name=".xuexi.span.ImageTextActivity"/>
+        <!-- vlayout -->
+        <activity android:name=".xuexi.vlayout.VlayoutActivity"/>
+        <!-- 雷达图蜘蛛网 -->
         <activity android:name=".radarmap.RadarMapActivity"/>
     </application>
 

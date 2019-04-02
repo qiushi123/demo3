@@ -1,10 +1,10 @@
 package com.example.qcl.demo.xuexi.sharehaibao;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +15,7 @@ import com.example.qcl.demo.R;
 /*
  * 生成海报并保存在本地
  * */
-public class ShareHaiBaoActivity extends AppCompatActivity {
+public class ShareHaiBaoActivity extends Activity {
 
     private LinearLayout rootView;
     private ImageView imageView;

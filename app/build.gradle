@@ -39,7 +39,7 @@ dependencies {
 
     implementation 'com.android.support:design:26.1.0'
 //    v-layout
-    compile('com.alibaba.android:vlayout:1.2.8@aar') {
+    implementation('com.alibaba.android:vlayout:1.2.8@aar') {
         transitive = true
     }
     //flexbox-layout
