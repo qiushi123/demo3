@@ -35,3 +35,10 @@ private void createPoster() {
   ```
 ## 四，图文混排+搜索关键字高亮显示
 ![](https://github.com/qiushi123/demo3/blob/master/images/tuwenhuanpai.jpg?raw=true)
+
+## 五，安卓view曝光量统计
+![](https://upload-images.jianshu.io/upload_images/6273713-216dce55f4acc468.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
+
+
+
+
