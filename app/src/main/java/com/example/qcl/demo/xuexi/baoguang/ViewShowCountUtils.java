@@ -105,6 +105,7 @@ public class ViewShowCountUtils {
                 !view.isShown() || !view.getGlobalVisibleRect(new Rect())) {
             return;
         }
+
         int top = view.getTop();
         int halfHeight = view.getHeight() / 2;
 
