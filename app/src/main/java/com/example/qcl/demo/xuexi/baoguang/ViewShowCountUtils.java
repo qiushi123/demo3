@@ -1,6 +1,5 @@
 package com.example.qcl.demo.xuexi.baoguang;
 
-import android.app.Activity;
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,8 +8,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-
-import com.example.qcl.demo.utils.UiUtils;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -106,18 +103,18 @@ public class ViewShowCountUtils {
             return;
         }
 
-        int top = view.getTop();
-        int halfHeight = view.getHeight() / 2;
-
-        int screenHeight = UiUtils.getScreenHeight((Activity) view.getContext());
-        int statusBarHeight = UiUtils.getStatusBarHeight(view.getContext());
-
-        if (top < 0 && Math.abs(top) > halfHeight) {
+        Rect rect = new Rect();
+        boolean cover = view.getGlobalVisibleRect(rect);
+        if (!cover) {
             return;
         }
-        if (top > screenHeight - halfHeight - statusBarHeight) {
+        if (rect.height() < view.getMeasuredHeight() / 2) {
+            //大于一半被覆盖,就不统计
             return;
         }
+        //        if (rect.width() >= view.getMeasuredWidth() && rect.height() >= view.getMeasuredHeight()) {
+        //            //没有被覆盖
+        //        }
 
         //这里获取的是我们view绑定的数据，相应的你要去在你的view里setTag，只有set了，才能get
         ItemData tag = (ItemData) view.getTag();

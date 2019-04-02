@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewTreeObserver;
 
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
@@ -30,6 +31,43 @@ public class BaoGuangActivity extends AppCompatActivity {
         vLayoutManager = new VirtualLayoutManager(this);
         initVlayout();
         initData();
+
+
+        ViewTreeObserver treeObserver = recyclerView.getViewTreeObserver();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            treeObserver.addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
+                @Override
+                public void onWindowFocusChanged(boolean hasFocus) {
+                    //                    Log.i("qcl0403", "onWindowFocusChanged");
+                }
+            });
+        }
+
+        //添加或移除
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            treeObserver.addOnWindowAttachListener(new ViewTreeObserver.OnWindowAttachListener() {
+                @Override
+                public void onWindowAttached() {
+                    //                    Log.i("qcl0403", "onWindowAttached");
+                }
+
+                @Override
+                public void onWindowDetached() {
+                    //                    Log.i("qcl0403", "onWindowDetached");
+                }
+            });
+        }
+        //布局改变
+        treeObserver.addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        //                        Log.i("qcl0403", "view树改变");
+                    }
+                });
+
+
     }
 
 

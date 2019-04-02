@@ -1,10 +1,11 @@
 package com.example.qcl.demo.xuexi.baoguang;
 
 import android.graphics.Rect;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import com.alibaba.android.vlayout.VirtualLayoutManager;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -12,9 +13,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/*
- * 统计曝光量
- * */
 public class BaseRealVisibleUtil implements RealVisibleInterface {
 
     private HashMap<WeakReference<View>, OnRealVisibleListener> mTotalViewHashMap = new HashMap<>();
@@ -31,7 +29,6 @@ public class BaseRealVisibleUtil implements RealVisibleInterface {
 
     /**
      * 尽量保证 注册的view 在每次页面刷新的时候 不会被重新添加, 否则map会越来越大.
-     *
      * @param view
      * @param listener
      */
@@ -67,52 +64,47 @@ public class BaseRealVisibleUtil implements RealVisibleInterface {
 
         for (Map.Entry<WeakReference<View>, ArrayList<Integer>> entry : mTotalParentViewHashMap.entrySet()) {
             View view = entry.getKey().get();
-            if (view == null)
-                continue;
+            if (view == null) continue;
 
-            if (view instanceof RecyclerView) {
+            if (view instanceof ListView) {
+                calculateListView((ListView) view, entry);
+            } else if (view instanceof RecyclerView) {
                 calculateRecyclerView((RecyclerView) view, entry);
+            } else if (view instanceof LinearLayout) {
+                calculateLinearLayout((LinearLayout) view, entry);
             }
         }
     }
 
-
-    //    private void calculateRecyclerView(RecyclerView recyclerView, Map.Entry<WeakReference<View>, ArrayList<Integer>> entry) {
-    //        OnRealVisibleListener listener = (OnRealVisibleListener) recyclerView.getTag();
-    //        LinearLayoutManager layoutManager = null;
-    //        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-    //            layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-    //            Log.i("qcl0401", "LinearLayoutManager");
-    //        } else if (recyclerView.getLayoutManager() instanceof VirtualLayoutManager) {
-    //            Log.i("qcl0401", "VirtualLayoutManager");
-    //        }
-    //        if (layoutManager == null)
-    //            return;
-    //        int firstItemPosition = layoutManager.findFirstVisibleItemPosition();
-    //        for (int i = 0; i < layoutManager.getChildCount(); i++) {
-    //            if (isVisible(recyclerView) && isVisible(layoutManager.getChildAt(i))) {
-    //                if (!entry.getValue().contains(i + firstItemPosition)) {
-    //                    listener.onRealVisible(i + firstItemPosition);
-    //                    entry.getValue().add(i + firstItemPosition);
-    //                }
-    //            }
-    //        }
-    //    }
+    private void calculateListView(ListView listView, Map.Entry<WeakReference<View>, ArrayList<Integer>> entry) {
+        OnRealVisibleListener listener = (OnRealVisibleListener) listView.getTag();
+        int firstVisible = listView.getFirstVisiblePosition();
+        for (int i = 0; i < listView.getChildCount(); i++) {
+            if (isVisible(listView) && isVisible(listView.getChildAt(i))) {
+                if (!entry.getValue().contains(i + firstVisible)) {
+                    if (listView.getHeaderViewsCount() > 0) { // 证明有headerview 那么第0个是headerview, 减去
+                        if (i > 0) {
+                            listener.onRealVisible(i + firstVisible - 1);
+                        }
+                    } else { // footview 的时候可能有数组越界  所以外面调用的时候一定要加判断
+                        listener.onRealVisible(i + firstVisible);
+                    }
+                    entry.getValue().add(i + firstVisible);
+                }
+            }
+        }
+    }
 
     private void calculateRecyclerView(RecyclerView recyclerView, Map.Entry<WeakReference<View>, ArrayList<Integer>> entry) {
         OnRealVisibleListener listener = (OnRealVisibleListener) recyclerView.getTag();
-        //        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-        //            layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        //            Log.i("qcl0401", "LinearLayoutManager");
-        //        } else
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        if (!(layoutManager instanceof VirtualLayoutManager)) {
-            return;
+        LinearLayoutManager layoutManager = null;
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+            layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         }
-        VirtualLayoutManager mVLayoutManager = (VirtualLayoutManager) layoutManager;
-        int firstItemPosition = mVLayoutManager.findFirstVisibleItemPosition();
-        for (int i = 0; i < mVLayoutManager.getChildCount(); i++) {
-            if (isVisible(recyclerView) && isVisible(mVLayoutManager.getChildAt(i))) {
+        if (layoutManager == null) return;
+        int firstItemPosition = layoutManager.findFirstVisibleItemPosition();
+        for (int i = 0; i < layoutManager.getChildCount(); i++) {
+            if (isVisible(recyclerView) && isVisible(layoutManager.getChildAt(i))) {
                 if (!entry.getValue().contains(i + firstItemPosition)) {
                     listener.onRealVisible(i + firstItemPosition);
                     entry.getValue().add(i + firstItemPosition);
@@ -121,6 +113,17 @@ public class BaseRealVisibleUtil implements RealVisibleInterface {
         }
     }
 
+    private void calculateLinearLayout(LinearLayout layout, Map.Entry<WeakReference<View>, ArrayList<Integer>> entry) {
+        OnRealVisibleListener listener = (OnRealVisibleListener) layout.getTag();
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            if (isVisible(layout) && isVisible(layout.getChildAt(i))) {
+                if (!entry.getValue().contains(i)) {
+                    listener.onRealVisible(i);
+                    entry.getValue().add(i);
+                }
+            }
+        }
+    }
 
     @Override
     public void clearRealVisibleTag() {
@@ -132,7 +135,6 @@ public class BaseRealVisibleUtil implements RealVisibleInterface {
 
     /**
      * 在屏幕中是否展现
-     *
      * @param v
      * @return
      */
@@ -146,4 +148,3 @@ public class BaseRealVisibleUtil implements RealVisibleInterface {
         mTotalParentViewHashMap.clear();
     }
 }
- 
