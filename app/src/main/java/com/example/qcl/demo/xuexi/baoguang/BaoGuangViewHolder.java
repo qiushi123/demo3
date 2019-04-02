@@ -14,7 +14,7 @@ public class BaoGuangViewHolder extends RecyclerView.ViewHolder {
     public BaoGuangViewHolder(View view, Context context) {
         super(view);
         viewRoot = view;
-        tv = (TextView) itemView.findViewById(R.id.tv);
+        tv = itemView.findViewById(R.id.tv);
     }
 
 

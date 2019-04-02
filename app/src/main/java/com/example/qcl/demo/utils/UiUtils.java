@@ -1,9 +1,9 @@
 package com.example.qcl.demo.utils;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Rect;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 public class UiUtils {
     //dip2px
@@ -14,51 +14,27 @@ public class UiUtils {
     }
 
 
-
-    /*
-    * 判断view是否被遮挡
-    * */
-    public static boolean isViewCovered(final View view) {
-        View currentView = view;
-
-        Rect currentViewRect = new Rect();
-        boolean partVisible = currentView.getGlobalVisibleRect(currentViewRect);
-        boolean totalHeightVisible = (currentViewRect.bottom - currentViewRect.top) >= view.getMeasuredHeight();
-        boolean totalWidthVisible = (currentViewRect.right - currentViewRect.left) >= view.getMeasuredWidth();
-        boolean totalViewVisible = partVisible && totalHeightVisible && totalWidthVisible;
-        // if any part of the view is clipped by any of its parents,return true
-        if (!totalViewVisible)
-            return true;
-
-        while (currentView.getParent() instanceof ViewGroup) {
-            ViewGroup currentParent = (ViewGroup) currentView.getParent();
-            // if the parent of view is not visible,return true
-            if (currentParent.getVisibility() != View.VISIBLE)
-                return true;
-
-            int start = indexOfViewInParent(currentView, currentParent);
-            for (int i = start + 1; i < currentParent.getChildCount(); i++) {
-                Rect viewRect = new Rect();
-                view.getGlobalVisibleRect(viewRect);
-                View otherView = currentParent.getChildAt(i);
-                Rect otherViewRect = new Rect();
-                otherView.getGlobalVisibleRect(otherViewRect);
-                // if view intersects its older brother(covered),return true
-                if (Rect.intersects(viewRect, otherViewRect))
-                    return true;
-            }
-            currentView = currentParent;
+    //获取状态栏的高度
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height",
+                "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
         }
-        return false;
+        if (result <= 0) {
+            result = dip2px(context, 24);//如果获取不到状态栏高度，就给个默认24dp（通常状态栏高度也就是24dp）
+        }
+        return result;
     }
 
-    private static int indexOfViewInParent(View view, ViewGroup parent) {
-        int index;
-        for (index = 0; index < parent.getChildCount(); index++) {
-            if (parent.getChildAt(index) == view)
-                break;
-        }
-        return index;
+    public static int getScreenHeight(Activity activity) {
+        //不包含底部虚拟键的高度
+        WindowManager manager = activity.getWindowManager();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        int screenHeight = outMetrics.heightPixels;
+        return screenHeight;
     }
 
 }
