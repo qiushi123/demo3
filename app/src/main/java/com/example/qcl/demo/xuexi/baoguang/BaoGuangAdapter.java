@@ -1,6 +1,7 @@
 package com.example.qcl.demo.xuexi.baoguang;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,11 @@ public class BaoGuangAdapter extends DelegateAdapter.Adapter<BaoGuangViewHolder>
 
     public BaoGuangAdapter(Context context) {
         this.context = context;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
     @Override

@@ -14,10 +14,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 2019/4/2 13:31
  * author: qcl
- * desc: 安卓曝光量统计工具类
+ * desc: RecyclerView列表的安卓曝光量统计工具类
  * wechat:2501902696
  */
-public class ViewShowCountUtils {
+public class ListViewShowCountUtils {
 
     //刚进入列表时统计当前屏幕可见views
     private boolean isFirstVisible = true;

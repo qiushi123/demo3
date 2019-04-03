@@ -11,4 +11,36 @@
         android:layout_height="wrap_content"
         />
 
+    <LinearLayout
+        android:id="@+id/tv_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv3"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/colorPrimaryDark"
+            android:src="@drawable/ic_launcher_background"
+            />
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/colorAccent"
+            android:text="我是textview1"/>
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@color/base_11DDEC"
+            android:text="我是textview2"/>
+
+
+    </LinearLayout>
+
+
 </RelativeLayout>
