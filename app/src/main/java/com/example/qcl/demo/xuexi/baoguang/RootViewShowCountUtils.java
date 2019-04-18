@@ -2,6 +2,7 @@ package com.example.qcl.demo.xuexi.baoguang;
 
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.request.SingleRequest;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -37,44 +40,127 @@ public class RootViewShowCountUtils<T> {
     //用于统计曝光量的map
     private ConcurrentHashMap<String, Integer> hashMap = new ConcurrentHashMap<String, Integer>();
 
-
     /*
      * 统计RecyclerView里当前屏幕可见子view的曝光量
      *
      * */
-    void recordViewShowCount(ViewGroup root) {
+    void recordViewShowCount(View root) {
         hashMap.clear();
         if (root == null || root.getVisibility() != View.VISIBLE) {
             return;
         }
-        treeObserverLinearLayout(root);
+        List<View> allChildViews = getAllChildViews(root);//获取所有可见的view
+        Log.i("qcl0403", "可见的view的size：" + allChildViews.size());
+        for (View view : allChildViews) {
+            if (view instanceof RecyclerView) {
+                RecyclerView rv = (RecyclerView) view;
+                observeRecyclerView(rv);
+            }
+        }
+        //        treeObserverLinearLayout(root);
 
     }
 
-    private void treeObserverLinearLayout(final ViewGroup root) {
+
+    public void treeObserverLinearLayout(final View root) {
         ViewTreeObserver treeObserver = root.getViewTreeObserver();
-        //
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             treeObserver.addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
                 @Override
                 public void onWindowFocusChanged(boolean hasFocus) {
-                    Log.i("qcl0403", "onWindowFocusChanged");
+                    Log.i("qcl0403", "onWindowFocusChanged:" + hasFocus);
                     //只有在前台时才统计。
                     if (hasFocus) {
-                        int childCount = root.getChildCount();
-                        Log.i("qcl0403", "childCount" + childCount);
-                        for (int i = 0; i < childCount; i++) {
-                            View view = root.getChildAt(i);
-                            Log.i("qcl0403", view.getClass().getName());
-                            recordViewCount(view);
-                        }
+
                     }
                 }
-
             });
         }
     }
 
+
+    /**
+     * 监听RecyclerView
+     */
+
+    private boolean isFirstVisible = true;
+
+    private void observeRecyclerView(RecyclerView recyclerView) {
+        if (recyclerView == null || recyclerView.getVisibility() != View.VISIBLE) {
+            return;
+        }
+        //检测recylerview的滚动事件
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                /*
+                我这里通过的是停止滚动后屏幕上可见view。如果滚动过程中的可见view也要统计，你可以根据newState去做区分
+                SCROLL_STATE_IDLE:停止滚动
+                SCROLL_STATE_DRAGGING: 用户慢慢拖动
+                SCROLL_STATE_SETTLING：惯性滚动
+                */
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    List<View> allChildViews = getAllChildViews(recyclerView);//获取所有可见的view
+                    Log.i("qcl0403", "RecyclerView子view个数：" + allChildViews.size());
+                    for (View view : allChildViews) {
+                        recordViewCount(view);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                //刚进入列表时统计当前屏幕可见views
+                if (isFirstVisible) {
+                    List<View> allChildViews = getAllChildViews(recyclerView);//获取所有可见的view
+                    Log.i("qcl0403", "RecyclerView子view个数：" + allChildViews.size());
+                    for (View view : allChildViews) {
+                        recordViewCount(view);
+                    }
+                    isFirstVisible = false;
+                }
+            }
+        });
+
+    }
+
+
+    private List<View> getAllChildViews(View view) {
+        List<View> allchildren = new ArrayList<View>();
+        if (view instanceof ViewGroup) {
+            ViewGroup vp = (ViewGroup) view;
+            if (isVisibleView(vp)) {
+                for (int i = 0; i < vp.getChildCount(); i++) {
+                    View viewchild = vp.getChildAt(i);
+                    //Log.i("qcl0403", viewchild.getClass().getName());
+                    allchildren.add(viewchild);
+                    //再次 调用本身（递归）
+                    allchildren.addAll(getAllChildViews(viewchild));
+
+                }
+            }
+
+        }
+        return allchildren;
+    }
+
+    private boolean isVisibleView(View view) {
+        if (view == null || view.getVisibility() != View.VISIBLE || !view.isShown()
+                || !view.getGlobalVisibleRect(new Rect())) {
+            return false;
+        }
+        Rect rect = new Rect();
+        boolean cover = view.getGlobalVisibleRect(rect);
+        if (!cover) {
+            return false;
+        }
+        if (rect.height() < view.getMeasuredHeight() / 2) {
+            //大于一半被覆盖,就不统计
+            return false;
+        }
+        return true;
+    }
 
     //获取view绑定的数据
     private void recordViewCount(View view) {
@@ -82,7 +168,7 @@ public class RootViewShowCountUtils<T> {
                 !view.isShown() || !view.getGlobalVisibleRect(new Rect())) {
             return;
         }
-
+        //Log.i("qcl0403", "可见的view:" + view.getClass().getName());
         Rect rect = new Rect();
         boolean cover = view.getGlobalVisibleRect(rect);
         if (!cover) {

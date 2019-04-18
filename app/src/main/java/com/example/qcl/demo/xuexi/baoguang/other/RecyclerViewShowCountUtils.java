@@ -1,6 +1,7 @@
-package com.example.qcl.demo.xuexi.baoguang;
+package com.example.qcl.demo.xuexi.baoguang.other;
 
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,10 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.Button;
+
+import com.example.qcl.demo.xuexi.baoguang.ItemData;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,20 +22,15 @@ import java.util.concurrent.ConcurrentHashMap;
  * desc: RecyclerView列表的安卓曝光量统计工具类
  * wechat:2501902696
  */
-public class ListViewShowCountUtils {
-
-    //刚进入列表时统计当前屏幕可见views
-    private boolean isFirstVisible = true;
-
+public class RecyclerViewShowCountUtils {
     //用于统计曝光量的map
     private ConcurrentHashMap<String, Integer> hashMap = new ConcurrentHashMap<String, Integer>();
-
 
     /*
      * 统计RecyclerView里当前屏幕可见子view的曝光量
      *
      * */
-    void recordViewShowCount(RecyclerView recyclerView) {
+    void recordViewShowCount(final RecyclerView recyclerView) {
         hashMap.clear();
         if (recyclerView == null || recyclerView.getVisibility() != View.VISIBLE) {
             return;
@@ -50,17 +50,34 @@ public class ListViewShowCountUtils {
                 }
 
             }
+        });
+
+        Button view=new Button(recyclerView.getContext());
+        view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+
+            }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                //刚进入列表时统计当前屏幕可见views
-                if (isFirstVisible) {
-                    getVisibleViews(recyclerView);
-                    isFirstVisible = false;
-                }
+            public void onViewDetachedFromWindow(View v) {
+
             }
         });
+
+
+        //从后台进入前台时也算一次曝光
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            recyclerView.getViewTreeObserver().addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
+                @Override
+                public void onWindowFocusChanged(boolean hasFocus) {
+                    if (hasFocus) {
+                        Log.i("qcl0403", "onWindowFocusChanged:" + hasFocus);
+                        getVisibleViews(recyclerView);
+                    }
+                }
+            });
+        }
 
     }
 

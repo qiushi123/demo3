@@ -69,5 +69,13 @@
         android:text="view曝光量统计"
         />
 
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="RxJava2学习"
+        />
+
 
 </LinearLayout>

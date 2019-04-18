@@ -5,19 +5,19 @@ import java.io.Serializable;
 /**
  * 2019/4/2 10:47
  * author: qcl
- * desc: recylerview列表的模拟数据
+ * imgUrl: recylerview列表的模拟数据
  * wechat:2501902696
  */
 public class ItemData implements Serializable {
     private String title;
-    private String desc;
+    private String imgUrl;
 
     public ItemData() {
     }
 
-    public ItemData(String title, String desc) {
+    public ItemData(String title, String imgUrl) {
         this.title = title;
-        this.desc = desc;
+        this.imgUrl = imgUrl;
     }
 
     public String getTitle() {
@@ -28,19 +28,19 @@ public class ItemData implements Serializable {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @Override
     public String toString() {
         return "ItemData{" +
                 "title='" + title + '\'' +
-                ", desc='" + desc + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
                 '}';
     }
 }

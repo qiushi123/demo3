@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv3"
@@ -25,6 +25,7 @@
             android:background="@color/colorPrimaryDark"
             android:src="@drawable/ic_launcher_background"
             />
+
         <TextView
             android:id="@+id/tv1"
             android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,8 +46,7 @@ public class BaoGuangActivity extends AppCompatActivity {
         initVlayout();
         initData();
 
-        linearLayoutCount();
-
+        //        linearLayoutCount();
     }
 
 
@@ -65,53 +65,56 @@ public class BaoGuangActivity extends AppCompatActivity {
 
         Window window = getWindow();
         ViewGroup decorView = (ViewGroup) window.getDecorView();
-        //        new RootViewShowCountUtils().recordViewShowCount(decorView);
-        treeObserverList(decorView);
+        FrameLayout fl = decorView.findViewById(android.R.id.content);
+        //        new RootViewShowCountUtils().recordViewShowCount(content);
+
+        ViewGroup child = (ViewGroup) fl.getChildAt(fl.getChildCount() - 1);
+        Log.i("qcl0408", child.getClass().getName() + "===" + child.hashCode());
+
+        ViewGroup parent = (ViewGroup) recyclerView.getParent();
+        Log.i("qcl0408", "rv父类" + parent.getClass().getName() + "===" + parent.hashCode());
     }
 
 
     private void initData() {
         for (int i = 0; i < 40; i++) {
-            listData.add(new ItemData("标题" + i, "描述" + i));
+            if (i % 3 == 0) {
+                listData.add(new ItemData("标题" + i, ""));
+            } else {
+                listData.add(new ItemData("标题" + i, "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554268405878&di=19b64409045ff7a777fd16100151fd01&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F15%2F68%2F59%2F71X58PICNjx_1024.jpg"));
+            }
         }
         adapter.setListData(listData);
         adapter.notifyDataSetChanged();
 
-        //        ListViewShowCountUtils listViewShowCountUtils = new ListViewShowCountUtils();
-        //        listViewShowCountUtils.recordViewShowCount(recyclerView);
+        //统计recyclerview的曝光量
+        //        new ListViewShowCountUtils().recordViewShowCount(recyclerView);
 
-        //        treeObserverList(recyclerView);
+
+        //去重view统计
+        //        new BaseRealVisibleUtil().registerParentView(recyclerView,
+        //                new RealVisibleInterface.OnRealVisibleListener() {
+        //            @Override
+        //            public void onRealVisible(int position) {
+        //                // position 对于有子view的有用,如果注册的是单个view 这个position忽略
+        //            }
+        //        });
+        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new MyOnGlobalLayoutListener());
+
+
     }
 
-    //列表view树监听
-    private void treeObserverList(ViewGroup viewGroup) {
-        ViewTreeObserver treeObserver = viewGroup.getViewTreeObserver();
 
-        //
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            treeObserver.addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
-                @Override
-                public void onWindowFocusChanged(boolean hasFocus) {
-                    /*
-                    hasFocus是我们窗口状态改变时回传回来的值
-                    true： 我们的view在前台展示
-                    fasle: 熄屏，onpause，后台时展示
-                    我们如果在每次熄屏到亮屏也算一次曝光的话，那这里为true的时候可以做统计
-                    */
+    private class MyOnGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
 
-                }
-            });
+        @Override
+        public void onGlobalLayout() {
+            //默认会调用俩次，只需要一次，第一次进入就移除
+            recyclerView.getViewTreeObserver().removeGlobalOnLayoutListener(MyOnGlobalLayoutListener.this);
+            Log.i("qcl0415", "view树改变");
         }
-
-        //布局改变
-        treeObserver.addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        Log.i("qcl0403", "view树改变");
-                    }
-                });
     }
+
 
     private void initVlayout() {
         vAdapter = new DelegateAdapter(vLayoutManager);

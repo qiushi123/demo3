@@ -50,6 +50,7 @@ public class ImageTextActivity extends Activity {
 
         tv.setText(sp);
 
+
     }
 
     private void showGaoLiang() {
