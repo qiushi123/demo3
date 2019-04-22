@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".xuexi.rxjava.MainActivityRX"/>
+        <activity android:name=".xuexi.rxjava.RxActivity"/>
         <!-- 自定义view -->
         <activity android:name=".view.MainActivityView"/>
         <!-- 仿知乎，虎嗅创意广告 -->

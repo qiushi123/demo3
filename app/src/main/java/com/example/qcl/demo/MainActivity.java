@@ -12,7 +12,7 @@ import com.example.qcl.demo.radarmap.RadarMapActivity;
 import com.example.qcl.demo.view.MainActivityView;
 import com.example.qcl.demo.view.distanceview.DistanceActivity;
 import com.example.qcl.demo.xuexi.baoguang.BaoGuangActivity;
-import com.example.qcl.demo.xuexi.rxjava.MainActivityRX;
+import com.example.qcl.demo.xuexi.rxjava.RxActivity;
 import com.example.qcl.demo.xuexi.sharehaibao.ShareHaiBaoActivity;
 import com.example.qcl.demo.xuexi.span.ImageTextActivity;
 import com.example.qcl.demo.xuexi.vlayout.VlayoutActivity;
@@ -90,7 +90,7 @@ public class MainActivity extends RxAppCompatActivity {
         findViewById(R.id.button9).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MainActivityRX.class));
+                startActivity(new Intent(MainActivity.this, RxActivity.class));
             }
         });
     }
